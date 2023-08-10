@@ -11,23 +11,17 @@ const input = fs
       .map((str) => parseInt(str))
   );
 
-// const max = Math.max(...input.flat()) || 0;
-let max = 0;
-let [x, y] = [0, 0];
+let maxNum = 0;
+let maxIdx = '1 1';
 
 input.forEach((row, rowIdx) => {
-  for (let cell = 0; cell < row.length; cell++) {
-    if (row[cell] < max) continue;
-    max = row[cell];
-    x = cell + 1;
-    y = rowIdx + 1;
-  }
-  // if (x > 0 && y > 0) return;
-  // const cellIdx = row.findIndex((cell) => cell === max);
-  // if (cellIdx > -1) {
-  //   x = cellIdx + 1;
-  //   y = rowIdx + 1;
-  // }
+  row.forEach((cell, cellIdx) => {
+    if (cell > maxNum) {
+      maxNum = cell;
+      maxIdx = `${rowIdx + 1} ${cellIdx + 1}`;
+    }
+  });
 });
 
-console.log(`${max}\n${y} ${x}`.trim());
+console.log(maxNum);
+console.log(maxIdx);

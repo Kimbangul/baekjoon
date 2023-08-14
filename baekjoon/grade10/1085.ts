@@ -4,7 +4,9 @@ const input : number[] = fs
   .readFileSync('./input.txt')
   .toString()
   .trim()
-  .split('\n')
+  .split(' ')
   .map((el : string) => parseInt(el));
 
-  console.log(input[0] * input[1]);
+const distance = [input[0], input[2] - input[0], input[1], input[3]-input[1]];
+
+console.log(Math.min(...distance))

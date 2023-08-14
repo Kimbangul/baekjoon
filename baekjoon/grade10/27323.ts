@@ -7,4 +7,4 @@ const input : number[] = fs
   .split('\n')
   .map((el : string) => parseInt(el));
 
-  console.log(input);
+  console.log(input[0] * input[1]);

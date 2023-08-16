@@ -1,5 +1,5 @@
 ///dev/stdin
-const fs = require('fs');
+export const fs = require('fs');
 const input = parseInt(fs
   .readFileSync('./input.txt')
   .toString()

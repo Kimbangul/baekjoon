@@ -13,9 +13,6 @@ const otherSideLength = sortedSide[1] + sortedSide[2];
 
 if (otherSideLength > input[0]) {
   console.log(input[0] + input[1] + input[2]);
-  return;
+} else {
+  console.log(otherSideLength + otherSideLength - 1);
 }
-
-// else if ()
-
-console.log(sortedSide);

@@ -8,6 +8,16 @@ let input = fs
   .map((el) => el.split(' ').map((num) => parseInt(num)));
 
 const cutLine = input[0][1];
-const sortedInput = input[1].sort((a, b) => b - a);
+// const sortedInput = input[1].sort((a, b) => b - a);
 
-console.log(sortedInput[cutLine - 1]);
+for (let i = 0; i < input[1].length - 1; i++) {
+  for (let j = i + 1; j < input[1].length; j++) {
+    if (input[1][j] > input[1][i]) {
+      let tmp = input[1][j];
+      input[1][j] = input[1][i];
+      input[1][i] = tmp;
+    }
+  }
+}
+
+console.log(input[1][cutLine - 1]);

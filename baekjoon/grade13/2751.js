@@ -29,8 +29,11 @@ const mergeSort = (arr) => {
 
 const resultArr = mergeSort(input.slice(1, input.length));
 
-resultArr.forEach((el) => {
-  result += el + '\n';
-});
+for (let i = 0; i < resultArr.length; i++) {
+  result += resultArr[i];
+  if (i !== resultArr.length - 1) {
+    result += '\n';
+  }
+}
 
-console.log(result.trim());
+console.log(result);

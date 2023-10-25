@@ -7,4 +7,22 @@ var input = fs
   .split('\n')
   .map((el) => el.trim());
 
+input.shift();
+input = input.filter((el, idx) => {
+  return input.indexOf(el) === idx;
+});
+
 console.log(input);
+
+const result = input.sort((a, b) => {
+  if (a.length === b.length) {
+    for (let i = 0; i < a.length; a++) {
+      if (a.charCodeAt(i) !== b.charCodeAt(i)) {
+        return a.charCodeAt(i) - b.charCodeAt(i);
+      }
+    }
+  }
+  return a.length - b.length;
+});
+
+console.log(result.join('\n').trim());

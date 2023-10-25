@@ -12,11 +12,9 @@ input = input.filter((el, idx) => {
   return input.indexOf(el) === idx;
 });
 
-console.log(input);
-
 const result = input.sort((a, b) => {
   if (a.length === b.length) {
-    for (let i = 0; i < a.length; a++) {
+    for (let i = 0; i < a.length; i++) {
       if (a.charCodeAt(i) !== b.charCodeAt(i)) {
         return a.charCodeAt(i) - b.charCodeAt(i);
       }

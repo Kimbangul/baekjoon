@@ -11,12 +11,17 @@ const input = fs
 input.shift();
 console.log(input);
 
-const result = input.sort((a, b) => {
+let result = input.sort((a, b) => {
   if (parseInt(a) - parseInt(b) !== 0) {
     return parseInt(a) - parseInt(b);
   } else {
     return input.indexOf(a) - input.indexOf(b);
   }
 });
+
+result = result
+  .map((el) => el.join(' ').trim())
+  .join('\n')
+  .trim();
 
 console.log(result);

@@ -6,7 +6,7 @@ sundaycoding
 codingsh
 baekjoon
 codeplus
-codeminusrmfo 
+codeminus
 startlink
 starlink
 sundaycoding

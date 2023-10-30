@@ -5,18 +5,14 @@ input.shift();
 input = input[0].split(' ').map((el) => parseInt(el));
 
 // xi > xj를 만족하는 서로 다른 좌표 xj의 개수
-console.log(input);
+const answer = [];
+const obj = {};
 let uniqueArr = new Set(input);
 uniqueArr = Array.from(uniqueArr).sort((a, b) => a - b);
+uniqueArr.forEach((el, idx) => (obj[el] = idx));
 
-console.log(uniqueArr);
+for (let i = 0; i < input.length; i++) {
+  answer.push(obj[input[i]]);
+}
 
-uniqueArr.forEach((el, idx) => {
-  for (let i = 0; i < input.length; i++) {
-    if (el === input[i]) {
-      input[i] = idx;
-    }
-  }
-});
-
-console.log(input);
+console.log(answer.join(' ').trim());

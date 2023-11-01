@@ -7,15 +7,17 @@ const [n, m] = input
 
 const dictionary = input.slice(0, n);
 const questionArr = input.slice(n);
-const dictionaryMap = dictionary.reduce((map, obj) => {
-  map.set(obj.key, obj.value);
+const dictionaryMap = dictionary.reduce((map, val, idx) => {
+  map.set(idx + 1, val);
   return map;
 }, new Map());
 
-// console.log(input);
-console.log(questionArr);
-console.log(dictionaryMap);
-
-// questionArr.forEach((el) => {
-
-// });
+questionArr.forEach((el) => {
+  if (isNaN(el)) {
+    dictionaryMap.forEach((val, key) => {
+      if (el === val) console.log(key);
+    });
+  } else {
+    console.log(dictionaryMap.get(parseInt(el)));
+  }
+});

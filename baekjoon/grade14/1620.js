@@ -15,7 +15,6 @@ const dictionary = input.slice(0, n);
 const questionArr = input.slice(n);
 const dictionaryObj = {};
 
-console.log(questionArr);
 dictionary.forEach((el, idx) => {
   dictionaryObj[el] = idx + 1;
   dictionaryObj[idx + 1] = el;

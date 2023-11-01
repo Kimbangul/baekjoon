@@ -7,7 +7,12 @@ const [n, m] = input
   .map((el) => parseInt(el));
 
 const noHear = input.slice(0, n).map((el) => el.trim());
-const noSee = input.slice(n).map((el) => el.trim());
+let noSee = input.slice(n).reduce((prev, cur) => {
+  prev[cur] = true;
+  return prev;
+}, {});
 
-const filter = noHear.filter((el) => noSee.includes(el));
+console.log(noSee);
+
+const filter = noHear.filter((el) => noSee[el] === true);
 console.log(filter.length + '\n' + filter.join('\n'));

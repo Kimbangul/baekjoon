@@ -22,11 +22,11 @@ Raticate
 Spearow
 Fearow
 Ekans
-Arbokkkkkkkkkkkkkkkkkkk
+Arbok
 Pikachu
 Raichu
 25
-Charmander
-3
-Arbokkkkkkkkkkkkkkkkkkk
 Raichu
+3
+Pidgey
+Kakuna

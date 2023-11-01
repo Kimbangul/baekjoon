@@ -1,3 +1,4 @@
+// /dev/stdin
 const fs = require('fs');
 let input = fs.readFileSync('./input.txt').toString().split('\n');
 const [n, m] = input
@@ -6,17 +7,20 @@ const [n, m] = input
   .map((el) => parseInt(el));
 
 const dictionary = input.slice(0, n);
+
 const questionArr = input.slice(n);
-const dictionaryMap = dictionary.reduce((map, val, idx) => {
-  map.set(idx + 1, val);
-  return map;
-}, new Map());
+const dictionaryMap = new Map();
+const dictionaryReverseMap = new Map();
+
+dictionary.forEach((val, idx) => {
+  let value = val.trim();
+  dictionaryMap.set(idx + 1, value);
+  dictionaryReverseMap.set(value, idx + 1);
+});
 
 questionArr.forEach((el) => {
   if (isNaN(el)) {
-    dictionaryMap.forEach((val, key) => {
-      if (el === val) console.log(key);
-    });
+    console.log(dictionaryReverseMap.get(el.trim()));
   } else {
     console.log(dictionaryMap.get(parseInt(el)));
   }

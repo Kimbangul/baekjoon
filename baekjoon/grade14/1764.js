@@ -6,10 +6,8 @@ const [n, m] = input
   .split(' ')
   .map((el) => parseInt(el));
 
-console.log(n, m);
+const noHear = input.slice(0, n).map((el) => el.trim());
+const noSee = input.slice(n).map((el) => el.trim());
 
-console.log(input);
-const noHear = input.slice(0, n);
-const noSee = input.slice(n);
-
-console.log(noHear, noSee);
+const filter = noHear.filter((el) => noSee.includes(el));
+console.log(filter.length + '\n' + filter.join('\n'));

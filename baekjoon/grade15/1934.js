@@ -5,9 +5,14 @@ let input = fs
   .toString()
   .split('\n')
   .map((el) => el.split(' ').map((str) => parseInt(str)));
+input.shift();
+let answer = [];
 
-console.log(input);
-
-const gcd = (a, b) => (b ? gcd(b, a % b) : a); // 최대공약수
+const gcd = (a, b) => (a % b === 0 ? b : gcd(b, a % b)); // 최대공약수
 const lcm = (a, b) => (a * b) / gcd(a, b); // 최대공배수
-console.log(lcm(input[1][0], input[1][1]));
+
+for (let i = 0; i < input.length; i++) {
+  answer.push(lcm(input[i][0], input[i][1]));
+}
+
+console.log(answer.join('\n').trim());

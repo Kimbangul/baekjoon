@@ -12,13 +12,14 @@
 const fs = require('fs');
 let input = fs.readFileSync('./input.txt').toString().split('\n');
 input = input.map((el) => el.split(' ').map((str) => parseInt(str)));
+const a = new Set(input[1]);
+const b = new Set(input[2]);
+const union = new Set([...a, ...b]);
 
-const a = input[1];
-const b = input[2];
-
-const aMinusB = a.filter((el) => !b.includes(el));
-const BminusA = b.filter((el) => !a.includes(el));
-const union = new Set([...aMinusB, ...BminusA]);
+a.forEach((el) => {
+  if (b.has(el)) {
+    union.delete(el);
+  }
+});
 
 console.log(union.size);
-// console.log(input);

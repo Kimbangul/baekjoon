@@ -12,7 +12,5 @@ let noSee = input.slice(n).reduce((prev, cur) => {
   return prev;
 }, {});
 
-console.log(noSee);
-
-const filter = noHear.filter((el) => noSee[el] === true);
+const filter = noHear.filter((el) => noSee[el] === true).sort();
 console.log(filter.length + '\n' + filter.join('\n'));

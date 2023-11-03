@@ -1,18 +1,24 @@
 // /dev/stdin
 const fs = require('fs');
-let input = fs
-  .readFileSync('./input.txt')
-  .toString()
-  .split('\n')
-  .map((el) => el.split(' ').map((str) => parseInt(str)));
-input.shift();
-let answer = [];
+let input = fs.readFileSync('./input.txt').toString().split('\n');
+const cases = Number(input[0]);
+let answer = '';
 
-const gcd = (a, b) => (a % b === 0 ? b : gcd(b, a % b)); // 최대공약수
+const gcd = (a, b) => {
+  let tmp;
+  while (b !== 0) {
+    tmp = a % b;
+    a = b;
+    b = tmp;
+  }
+  return a;
+}; // 최대공약수
 const lcm = (a, b) => (a * b) / gcd(a, b); // 최대공배수
 
-for (let i = 0; i < input.length; i++) {
-  answer.push(lcm(input[i][0], input[i][1]));
+for (let i = 1; i <= cases; i++) {
+  const x = Number(input[i].split(' ')[0]);
+  const y = Number(input[i].split(' ')[1]);
+  answer += lcm(x, y) + '\n';
 }
 
-console.log(answer.join('\n').trim());
+console.log(answer.trim());

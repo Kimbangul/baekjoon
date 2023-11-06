@@ -6,18 +6,23 @@ const input = fs
   .split('\n')
   .map((el) => Number(el));
 input.shift();
-let min = 0;
 
-console.log(input);
+const gcd = (a, b) => {
+  let tmp;
+  while (b !== 0) {
+    tmp = a % b;
+    a = b;
+    b = tmp;
+  }
+  return a;
+};
+let answer = input[0];
 
 input.forEach((el, idx) => {
-  if (idx === input.length - 1) return;
-  const diff = Math.abs(input[idx + 1] - input[idx]);
-  console.log(diff);
-  if (min === 0 || diff < min) {
-    console.log(diff, min);
-    min = diff;
-  }
+  answer = gcd(answer, el);
 });
 
-console.log(min);
+console.log(answer);
+
+const distance = Math.max(...input) - Math.min(...input);
+console.log(distance / answer - (input.length - 1));

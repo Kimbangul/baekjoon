@@ -1,29 +1,45 @@
+/*
+베르트랑 공준은 임의의 자연수 n에 대하여, n보다 크고, 2n보다 작거나 같은 소수는 적어도 하나 존재한다는 내용을 담고 있다.
+이 명제는 조제프 베르트랑이 1845년에 추측했고, 파프누티 체비쇼프가 1850년에 증명했다.
+예를 들어, 10보다 크고, 20보다 작거나 같은 소수는 4개가 있다. (11, 13, 17, 19) 또, 14보다 크고, 28보다 작거나 같은 소수는 3개가 있다. (17,19, 23)
+자연수 n이 주어졌을 때, n보다 크고, 2n보다 작거나 같은 소수의 개수를 구하는 프로그램을 작성하시오. 
+*/
+
 const path = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
 const fs = require('fs');
+
 let input = fs
   .readFileSync(path)
   .toString()
-  .trim()
   .split('\n')
-  .map((el) => Number(el));
-input.pop();
+  .map((el) => parseInt(el));
 
 const isPrime = (n) => {
   if (n < 2) return false;
-  for (let i = 2; i < Math.sqrt(n); i++) {
+
+  for (let i = 2; i <= parseInt(Math.sqrt(n)); i++) {
     if (n % i === 0) return false;
   }
   return true;
 };
 
-input.forEach((el, idx) => {
-  let cnt = 0;
-  for (let i = el; i <= 2 * el; i++) {
-    if (isPrime(i)) {
-      cnt++;
-    }
-  }
-  console.log(cnt);
-});
+// input.forEach((el) => {
+//   if (el === 0) return;
+//   let primeCnt = 0;
 
-// console.log(input);
+//   for (let i = el + 1; i <= 2 * el; i++) {
+//     if (isPrime(i)) primeCnt++;
+//   }
+
+//   console.log(primeCnt);
+// });
+
+for (let i = 0; i < input.length; i++) {
+  if (input[i] === 0) break;
+  let primeCnt = 0;
+
+  for (let j = input[i] + 1; j <= input[i] * 2; j++) {
+    if (isPrime(j)) primeCnt++;
+  }
+  console.log(primeCnt);
+}

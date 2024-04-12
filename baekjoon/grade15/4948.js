@@ -12,30 +12,31 @@ let input = fs
   .readFileSync(path)
   .toString()
   .split('\n')
-  .map((el) => parseInt(el));
+  .map((el) => parseInt(el)); // input = [1, 10, 13, 100, 1000, 10000, 100000, 0]
 
+// 소수를 판별하는 함수
 const isPrime = (n) => {
-  if (n < 2) return false;
+  if (n < 2) return false; // 0과 1은 소수가 아니므로 제외
 
   for (let i = 2; i <= parseInt(Math.sqrt(n)); i++) {
+    // 2부터 n의 제곱근(루트)까지 반복
     if (n % i === 0) return false;
   }
   return true;
 };
 
-// input.forEach((el) => {
-//   if (el === 0) return;
-//   let primeCnt = 0;
+input.forEach((el) => {
+  if (el === 0) return; // 0일 경우, 입력 종료
+  let primeCnt = 0;
 
-//   for (let i = el + 1; i <= 2 * el; i++) {
-//     if (isPrime(i)) primeCnt++;
-//   }
+  for (let i = el + 1; i <= 2 * el; i++) {
+    if (isPrime(i)) primeCnt++;
+  }
 
-//   console.log(primeCnt);
-// });
+  console.log(primeCnt);
+});
 
-for (let i = 0; i < input.length; i++) {
-  if (input[i] === 0) break;
+for (let i = 0; i < input.length - 1; i++) {
   let primeCnt = 0;
 
   for (let j = input[i] + 1; j <= input[i] * 2; j++) {

@@ -1,16 +1,3 @@
-const isPrime = (n) => {
-  if (n < 2) return false;
-  console.log(`let i = 2; i <= ${parseInt(Math.sqrt(n))}; i++`);
-  for (let i = 2; i <= parseInt(Math.sqrt(n)); i++) {
-    if (n % i === 0) return false;
-  }
-  return true;
-};
-
-test('소수 판별 함수', () => {
-  expect(isPrime(3)).toBe(true);
-});
-
 /**
  * -  숫자나 문자와 같은 객체가 아닌 기본형(primitive) 값을 비교할 때 사용
  * test("테스트 설명", () => {

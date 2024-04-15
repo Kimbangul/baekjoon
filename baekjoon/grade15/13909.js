@@ -19,41 +19,40 @@ const fs = require('fs');
 const input = parseInt(fs.readFileSync(path).toString().trim());
 
 // 창문 개수만큼 배열을 만들고 1로 초기화
-// let windowState = Array(input).fill(1);
 let cnt = 0;
 
 // 약수의 개수 구하기
-const getDivisor = (n) => {
-  const set = new Set();
+// const getDivisor = (n) => {
+//   const set = new Set();
 
-  for (let i = 0; i <= parseInt(Math.sqrt(n)); i++) {
-    if (n % i === 0) set.add(i);
-  }
-  set.forEach((el) => {
-    set.add(n / el);
-  });
+//   for (let i = 0; i <= parseInt(Math.sqrt(n)); i++) {
+//     if (n % i === 0) set.add(i);
+//   }
+//   set.forEach((el) => {
+//     set.add(n / el);
+//   });
 
-  return set.size;
-};
+//   return set.size;
+// };
 
-for (let i = 0; i < input; i++) {
-  if (getDivisor(i + 1) % 2 == 0) {
-    // windowState[i] = 0;
-    continue;
-  }
+for (let i = 1; i <= Math.sqrt(input); i++) {
   cnt++;
 }
 
-// for (let i = 1; i < input; i++) {
-//   if (getDivisor(i + 1) % 2 === 0) { // 약수의 개수가 짝수면 0(닫힘)
+console.log(cnt);
+
+// cnt = 0;
+// for (let i = 0; i < input; i++) {
+//   if (getDivisor(i + 1) % 2 == 0) {
+//     // windowState[i] = 0;
 //     continue;
 //   }
 //   cnt++;
 // }
 
-console.log(cnt);
+// 24
 
-// console.log(windowState, cnt);
+console.log(cnt);
 
 /** 약수의 개수가 짝수면 0, 홀수면 1 */
 
@@ -68,11 +67,22 @@ console.log(cnt);
  * [1,0,0,1,0,0,0,0] 2 * 3번 변경
  *
  *
- * 4:1,  2, 4번째에서 3번 변경 -> 1
+ * 1: 1
+ * 2: 1,2
+ * 3 : 1,3
+ * 4: 1,2,4번째에서 3번 변경 -> 1
  * 5: 1, 5번째에서 2번 변경 -> 0
  * 6: 1, 2, 3, 6번째에서 4번 변경 -> 0
  * 7: 1, 7번째에서 1번 변경 -> 0
- * 8: 1 2, 4, 8번째에서 4번 변경 -> 0
+ * 8: 1, 2, 4, 8번째에서 4번 변경 -> 0
+ * 9 : 1, 3, 9
+ * 10: 1, 2, 5, 10
+ * 11: 1, 11
+ * 12 : 1, 2, 3, 4, 6, 12
+ * 13: 1, 13
+ * 14: 1, 2, 7, 14
+ * 15: 1, 3, 5, 15
+ * 16: 1, 2, 4, 8 , 16
  *
  * 약수의 개수가 홀수면 0(1 미포함), 짝수면 1(1 미포함)
  *

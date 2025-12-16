@@ -5,6 +5,7 @@ input = input.trim().split('\n').map((str) => str.replaceAll('\r\n', ''));
 let result = '';
 
 const stackMap = {
+  ')': '(',
   ']': '['
 }
 

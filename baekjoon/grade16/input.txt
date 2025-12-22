@@ -1,2 +1,16 @@
-6
-3 2 1 6 4 5
+15
+push 1
+push 2
+front
+back
+size
+empty
+pop
+pop
+pop
+size
+empty
+pop
+push 3
+empty
+front

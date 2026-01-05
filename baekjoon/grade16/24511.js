@@ -2,48 +2,12 @@ const fs = require('fs');
 const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
 let input = fs.readFileSync(filePath).toString().trim().split('\n');
 
-let queueStack = {};
-
 const queueState = input[1].trim().split(' ').map((str) => parseInt(str));
 const innerNumber = input[2].trim().split(' ').map((str) => parseInt(str));
 const numberToPush = input[4].trim().split(' ').map((str) => parseInt(str));
-let result = '';
 
-for ( let i = 0; i < queueState.length; i++ ) {
-  queueStack[i] = { pointer: 0, 0: innerNumber[i] };
-}
-
-for ( let i = 0; i < numberToPush.length; i++ ) {
-  let number = numberToPush[i];
-
-  for ( let j = 0; j < parseInt(input[0]); j++ ) {
-    if ( queueState[j] === 0 ) {
-      // queue
-      queueStack[j][queueStack[j].pointer + 1] = number;
-      number = queueStack[j][queueStack[j].pointer];
-      delete queueStack[j][queueStack[j].pointer];
-      queueStack[j].pointer++;
-    } else {
-      // stack
-      queueStack[j][++queueStack[j].pointer] = number;
-      number = queueStack[j][queueStack[j].pointer];
-      delete queueStack[j][queueStack[j].pointer];
-      queueStack[j].pointer--;
-    }
-  }
-
-  result += `${number} `;
-}
-
-console.log(result.trim());
-
-
-
-
-
-
-
-
+const queue = innerNumber.filter((el, idx) => queueState[idx] === 0).reverse();
+console.log([...queue, ...numberToPush].splice(0, numberToPush.length).join(' '));
 
 
 /* 

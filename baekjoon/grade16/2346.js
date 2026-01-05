@@ -2,31 +2,25 @@ const fs = require('fs');
 const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
 let input = fs.readFileSync(filePath).toString().trim().split('\n');
 input = input[1].trim().split(' ').map((str) => parseInt(str));
-const balloon = {};
+const balloon = [];
 let result = '';
 
-let front = 0;
-let rear = input.length;
+let pointer = 0;
 
 for ( let i = 0; i < input.length; i++ ) {
   balloon[i] = i + 1;
 }
 
 for (let j = 0; j < input.length; j++ ) {
-  result += `${balloon[front]} `;
-  const moveDistance = input[balloon[front] - 1];
+  result += `${balloon[pointer]} `;
+  let moveDistance = input[balloon[pointer] - 1];
+  moveDistance = moveDistance > 0 ? moveDistance - 1 : moveDistance;
 
-  if ( moveDistance > 0 ) {
-    for (let i = 1; i < Math.abs(moveDistance); i++) {
-      balloon[rear++] = balloon[++front];
-    }
-    
-  } else {
-    for (let i = 0; i < Math.abs(moveDistance); i++) {
-      balloon[front--] = balloon[--rear];
-    }
-  }
-  front++;
+  balloon.splice(pointer, 1);
+  if (balloon.length === 0) break;
+
+  pointer = (pointer + moveDistance) % balloon.length;
+  if (pointer < 0) pointer += balloon.length;
 }
 
 console.log(result.trim());

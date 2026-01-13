@@ -1,36 +1,54 @@
 const fs = require('fs');
 const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
 let input = fs.readFileSync(filePath).toString().trim().split('\n').map((str) => str.trim().split(' ').map((num) => parseInt(num)));
-console.log(input);
 
 const saveCount = parseInt(input[0][1]);
-const array = input[1];
+let array = input[1];
 let count = 0;
-console.log(saveCount);
+let tmp = [];
+let result = -1;
 
-const mergeSort = (arr) => {
-  if ( arr.length <= 1 ) return arr;
-  console.log(arr);
+const merge = (start, mid, end) => {
+  let leftIdx = start;
+  let rightIdx = mid + 1;
+  let tmpIdx = 0;
 
-  let midIdx = Math.round(arr.length / 2) - 1;
-  const midVal = arr[midIdx];
-  console.log(`midVal: ${midVal}`);
-  
-  const left = [];
-  const right = [];
-  for ( let i = 0; i < arr.length; i++ ) {
-    console.log(`count: ${++count} value: ${arr[i]}`);
-    if ( i === midIdx ) continue;
-    arr[i] < midVal ? left.push(arr[i]) : right.push(arr[i]);
-
+  while ( leftIdx <= mid && rightIdx <= end ) {
+    if ( array[leftIdx] <= array[rightIdx] ) tmp[tmpIdx++] = array[leftIdx++];
+    else tmp[tmpIdx++] = array[rightIdx++];
   }
-  console.log(left, right);
 
-  return [...mergeSort(left), midVal, ...mergeSort(right)];
+  while ( leftIdx <= mid ) tmp[tmpIdx++] = array[leftIdx++];
+  while ( rightIdx <= end ) tmp[tmpIdx++] = array[rightIdx++];
+
+  let idx = start;
+  tmpIdx = 0;
+
+  while (idx <= end) {
+    array[idx] = tmp[tmpIdx];
+    count++;
+
+    if (count === saveCount) {
+      result = tmp[tmpIdx];
+      return;
+    }
+
+    idx++;
+    tmpIdx++;
+  }
 }
 
-const result = mergeSort(array);
+const mergeSort = (start, end) => {
+  if ( start >= end ) return;
+  let mid = Math.floor((start + end) / 2);
+  mergeSort(start, mid);
+  mergeSort(mid + 1, end);
+  merge(start, mid, end);
+}
+
+mergeSort(0, array.length - 1);
 console.log(result);
+
 
 /* 
 오늘도 서준이는 병합 정렬 수업 조교를 하고 있다. 

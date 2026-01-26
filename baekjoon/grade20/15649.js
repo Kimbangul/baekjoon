@@ -6,26 +6,23 @@ const maxNum = input[0];
 const pickCount = input[1];
 let result = '';
 
-const search = (arr) => {
-  console.log(`arr.length: ${arr.length}`);
-  console.log(`pickCount: ${pickCount}`);
-  // if ( maxNum - arr[arr.length - 1] < pickCount ) return;// 구하지 않음
-  if ( arr.length >= pickCount ) {
-    result += `${arr.join(' ')}\n`;
+const search = (set, searchCnt, searchTarget) => {
+  if ( searchTarget.size <= 0 || searchCnt <= 0) {
+    if (set.size === pickCount) result += `${[...set].join(' ')}\n`;
     return;
   };
-  const lastPick = arr[arr.length - 1] || 0;
 
-  console.log(`lastPick: ${lastPick}`);
-  for ( let i = lastPick + 1; i <= maxNum; i++ ) {
-    console.log(`i: ${i}`);
-    search([...arr, i]);
-  }
+  searchTarget.forEach((i) => {
+    const nextSearchTarget = new Set([...searchTarget]);
+    nextSearchTarget.delete(i);
+    search(new Set([...set, i]), searchCnt - 1, nextSearchTarget);
+  });
 };
 
 for ( let i = 1; i <= maxNum; i++ ) {
-  // console.log(`i: ${i}`);
-  search([i]);
+  const searchTarget = new Set([...new Array(maxNum).fill(1).map((el, idx) => el + idx)]);
+  searchTarget.delete(i);
+  search(new Set([i]), pickCount - 1, searchTarget);
 }
 
 console.log(result.trim());

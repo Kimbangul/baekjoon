@@ -30,7 +30,7 @@ const deletePerson = (K, arr) => {
 
 function solution(N, K) {
 	let queue = new Array(N).fill(1).map((num, idx) => num + idx);
-
+      
   while ( queue.length > 1 ) {
     queue = deletePerson(K - 1, queue);
   }

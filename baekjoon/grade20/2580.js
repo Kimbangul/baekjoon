@@ -4,11 +4,135 @@ let input = fs.readFileSync(filePath).toString().trim().split('\n').map((str) =>
 
 console.log(input);
 
-for (let row = 0; row < input.length; row++) {
-  
+/* 
+게임 시작 전 스도쿠 판에 쓰여 있는 숫자들의 정보가 주어질 때 모든 빈 칸이 채워진 최종 모습을 출력하는 프로그램을 작성하시오.
+
+아홉 줄에 걸쳐 한 줄에 9개씩 게임 시작 전 스도쿠판 각 줄에 쓰여 있는 숫자가 한 칸씩 띄워서 차례로 주어진다. 
+스도쿠 판의 빈 칸의 경우에는 0이 주어진다. 스도쿠 판을 규칙대로 채울 수 없는 경우의 입력은 주어지지 않는다.
+모든 빈 칸이 채워진 스도쿠 판의 최종 모습을 아홉 줄에 걸쳐 한 줄에 9개씩 한 칸씩 띄워서 출력한다.
+
+스도쿠 판을 채우는 방법이 여럿인 경우는 그 중 하나만을 출력한다.
+
+0 3 5 4 6 9 2 7 8
+7 8 2 1 0 5 6 0 9
+0 6 0 2 7 8 1 3 5
+3 2 1 0 4 6 8 9 7
+8 0 4 9 1 3 5 0 6
+5 9 6 8 2 0 4 1 3
+9 1 7 6 5 2 0 8 0
+6 0 3 7 0 1 9 5 2
+2 5 8 3 9 4 7 6 0
+*/
+
+console.log(input);
+
+input.forEach((row, idx) => {
+  let zeroIdx = null;
+  const seen = new Array(9).fill(false);
+
+  for ( let col = 0; col < 9; col++ ) {
+    const currNum = parseInt(row[col]);
+
+    if ( currNum === 0 ) {
+      if ( zeroIdx === null ) zeroIdx = col;
+      else break;
+    }
+    else seen[currNum - 1] = true;
+
+    console.log(`seen`);
+    console.log(seen);
+
+    // row[zeroIdx] = 
+  }
+});
+
+// for ( let row = 0; row < 9; row++ ) {
+//   let zeroIdx = false;
+//   const seen = [];
+
+//   for ( let col = 0; col < 9; col++ ) {
+//     const num = input[row][col];
+//     if ( num === 0 ) {
+//       if ( zeroIdx ) return;
+//       zeroIdx = col;
+//     }
+//     seen[num] = true;
+//   }
+
+//   input[row][zeroIdx] = zeroIdx;
+
+//   console.log(input);
+
+//   // for ( let idx = 0; idx < 9; idx++ ) {
+//   //   if ()
+//   // }
+// }
+
+const getIsSingleZero = (arr) => {
+  const newArr = arr;
+  let zeroIdx = null;
+  let toFillNum = null;
+
+  for ( let i = 1; i <= 9; i++ ) {
+    if ( arr[i - 1] === 0 ) {
+      if ( !zeroIdx ) return false;
+      zeroIdx = i - 1;
+    }
+
+    if ( newArr.indexOf(i) < 0 ) toFillNum = i;
+  }
+
+  newArr[zeroIdx] = toFillNum;
+  return newArr;
 }
 
+const setNumber = (arr) => {
+  let zeroIdx = null;
+  const newArr = new Array(9);
+  const setedNumberArr = arr;
 
+  for ( let idx = 0; idx < 9; idx++ ) {
+    const currNum = Number(arr[idx]);
+
+    if ( currNum === 0 ) {
+      if ( zeroIdx !== null ) return arr;
+      zeroIdx = idx;
+    } else {
+      // console.log(`currNum - 1: ${currNum - 1}`);
+      newArr[currNum - 1] = currNum;
+    }
+  }
+
+  for ( let num = 1; num <= 9; num++ ) {
+    if ( !newArr[num - 1] ) {
+      setedNumberArr[zeroIdx] = num.toString();
+      break;
+    }
+  }
+
+  console.log(`setedNumberArr: ${setedNumberArr}`);
+
+  return setedNumberArr;
+  // newArr[zero]
+}
+
+// for (let row = 0; row < input.length; row++) {
+//   input[row] = setNumber(input[row]);
+// }
+
+// // const col = input.map((row, rowIdx) => row.map((col) => ));
+// for (let colIdx = 0; colIdx < 9; colIdx++) {
+//   const newArr = new Array(9);
+//   for (let rowIdx = 0; rowIdx < 9; rowIdx++ ) {
+//     newArr[rowIdx] = input[rowIdx][colIdx]; 
+//   }
+
+//   newArr[rowIdx] = setNumber(newArr);
+//   console.log(`newArr`);
+//   console.log(newArr);
+// }
+
+// console.log(input);
 /* 1) row, col, 3x3 중 1개만 없는 경우를 찾는다 */
 
 /* 

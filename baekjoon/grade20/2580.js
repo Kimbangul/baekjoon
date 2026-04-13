@@ -1,8 +1,74 @@
 const fs = require('fs');
 const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
-let input = fs.readFileSync(filePath).toString().trim().split('\n').map((str) => str.trim().split(' '));
+let input = fs.readFileSync(filePath).toString().trim().split('\n').map((str) => str.trim().split(' ').map((num) => parseInt(num)));
 
-console.log(input);
+// console.log(input);
+const zero = [];
+
+input.forEach((row, rowIdx) => {
+  // 빈칸 저장
+  row.forEach((col, colIdx) => {
+    if ( col === 0 ) zero.push([rowIdx, colIdx]); 
+  });
+});
+
+function isVaild (row, col, num) {
+  // 행
+  for ( let i = 0; i < 9; i++ ) {
+    if ( input[row][i] === num ) return false;
+  }
+
+  // 열
+  for ( let j = 0; j < 9; j++ ) {
+    if ( input[j][col] === num ) return false;
+  }
+
+  // 3x3 박스
+  const startRow = Math.floor(row / 3) * 3;
+  const startCol = Math.floor(col / 3) * 3;
+
+  for ( let i = startRow; i < startRow + 3; i++ ) {
+    for ( let j = startCol; j < startCol + 3; j++ ) {
+      if ( input[i][j] === num ) return false;
+    }
+  }
+
+  return true;
+
+}
+
+function setNum (zeroIdx) {
+  if ( zeroIdx === zero.length ) {
+    const result = input.map((row) => row.join(' ').trim()).join('\n').trim();
+    console.log(result);
+    process.exit(0);
+    return;
+  }
+
+  const pos = zero[zeroIdx];
+
+  for ( let num = 1; num <= 9; num++ ) {
+    if ( isVaild(pos[0], pos[1], num) ) {
+      input[pos[0]][pos[1]] = num;
+      setNum(zeroIdx + 1);
+      input[pos[0]][pos[1]] = 0;
+    }
+  }
+}
+
+setNum(0);
+
+// console.log(input);
+
+// zero.forEach((pos) => {
+//   for ( let num = 1; num <= 9; num++ ) {
+//     if ( isVaild(pos[0], pos[1], num) ) {
+//       input[pos[0]][pos[1]] = num;
+
+//       input[pos[0]][pos[1]] = 0;
+//     }
+//   }
+// });
 
 /* 
 게임 시작 전 스도쿠 판에 쓰여 있는 숫자들의 정보가 주어질 때 모든 빈 칸이 채워진 최종 모습을 출력하는 프로그램을 작성하시오.
@@ -24,97 +90,6 @@ console.log(input);
 2 5 8 3 9 4 7 6 0
 */
 
-console.log(input);
-
-input.forEach((row, idx) => {
-  let zeroIdx = null;
-  const seen = new Array(9).fill(false);
-
-  for ( let col = 0; col < 9; col++ ) {
-    const currNum = parseInt(row[col]);
-
-    if ( currNum === 0 ) {
-      if ( zeroIdx === null ) zeroIdx = col;
-      else break;
-    }
-    else seen[currNum - 1] = true;
-
-    console.log(`seen`);
-    console.log(seen);
-
-    // row[zeroIdx] = 
-  }
-});
-
-// for ( let row = 0; row < 9; row++ ) {
-//   let zeroIdx = false;
-//   const seen = [];
-
-//   for ( let col = 0; col < 9; col++ ) {
-//     const num = input[row][col];
-//     if ( num === 0 ) {
-//       if ( zeroIdx ) return;
-//       zeroIdx = col;
-//     }
-//     seen[num] = true;
-//   }
-
-//   input[row][zeroIdx] = zeroIdx;
-
-//   console.log(input);
-
-//   // for ( let idx = 0; idx < 9; idx++ ) {
-//   //   if ()
-//   // }
-// }
-
-const getIsSingleZero = (arr) => {
-  const newArr = arr;
-  let zeroIdx = null;
-  let toFillNum = null;
-
-  for ( let i = 1; i <= 9; i++ ) {
-    if ( arr[i - 1] === 0 ) {
-      if ( !zeroIdx ) return false;
-      zeroIdx = i - 1;
-    }
-
-    if ( newArr.indexOf(i) < 0 ) toFillNum = i;
-  }
-
-  newArr[zeroIdx] = toFillNum;
-  return newArr;
-}
-
-const setNumber = (arr) => {
-  let zeroIdx = null;
-  const newArr = new Array(9);
-  const setedNumberArr = arr;
-
-  for ( let idx = 0; idx < 9; idx++ ) {
-    const currNum = Number(arr[idx]);
-
-    if ( currNum === 0 ) {
-      if ( zeroIdx !== null ) return arr;
-      zeroIdx = idx;
-    } else {
-      // console.log(`currNum - 1: ${currNum - 1}`);
-      newArr[currNum - 1] = currNum;
-    }
-  }
-
-  for ( let num = 1; num <= 9; num++ ) {
-    if ( !newArr[num - 1] ) {
-      setedNumberArr[zeroIdx] = num.toString();
-      break;
-    }
-  }
-
-  console.log(`setedNumberArr: ${setedNumberArr}`);
-
-  return setedNumberArr;
-  // newArr[zero]
-}
 
 // for (let row = 0; row < input.length; row++) {
 //   input[row] = setNumber(input[row]);

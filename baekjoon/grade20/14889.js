@@ -4,12 +4,11 @@ let input = fs.readFileSync(filePath).toString().split('\n');
 const n = parseInt(input.shift());
 input = input.map((str) => str.split(' ').map((num) => parseInt(num)) );
 
-const start = [];
-const link = [];
+
 let minScore = null;
 const visited = Array(n).fill(false);
 
-function select(remain, current) {
+function select(remain, current, startIdx) {
   if ( remain <= 0 ) {
     const linkTmp = [];
 
@@ -17,15 +16,34 @@ function select(remain, current) {
       if ( !visited[i] ) linkTmp.push(i);
     }
 
-    start.push([...current]);
-    link.push(linkTmp);
+    let startScore = 0;
+    let linkScore = 0;
+
+    
+    for ( let i = 0; i < current.length; i++ ) {
+      for ( let j = i + 1; j < current.length; j++ ) {
+        startScore += input[current[i]][current[j]];
+        startScore += input[current[j]][current[i]];
+        linkScore += input[linkTmp[i]][linkTmp[j]];
+        linkScore += input[linkTmp[j]][linkTmp[i]];
+      }
+    }
+
+    const curScore = Math.abs(startScore - linkScore);
+
+    if ( (minScore === null) || (curScore < minScore) ) {
+      minScore = curScore;
+    }
+
+    return;
+
   } else {
-    for ( let i = 0; i < n; i++ ) {
+    for ( let i = startIdx; i < n; i++ ) {
       if ( visited[i] ) continue;
       visited[i] = true;
       current.push(i);
 
-      select(remain - 1, current);
+      select(remain - 1, current, i + 1);
 
       current.pop();
       visited[i] = false;
@@ -35,29 +53,9 @@ function select(remain, current) {
 
 for ( let i = 0; i < n; i++ ) {
   visited[i] = true;
-  select((n / 2) - 1, [i]);
+  select((n / 2) - 1, [i], i + 1);
   visited[i] = false;
 }
-
-start.forEach((st, idx) => {
-  let startScore = 0;
-  let linkScore = 0;
-
-  for ( let i = 0; i < st.length; i++ ) {
-    for ( let j = i + 1; j < st.length; j++ ) {
-      startScore += input[st[i]][st[j]];
-      startScore += input[st[j]][st[i]];
-      linkScore += input[link[idx][i]][link[idx][j]];
-      linkScore += input[link[idx][j]][link[idx][i]];
-    }
-  }
-
-  const curScore = Math.abs(startScore - linkScore);
-
-  if ( (minScore === null) || (curScore < minScore) ) {
-    minScore = curScore;
-  }
-});
 
 console.log(minScore);
 

@@ -321,26 +321,10 @@ class Node {
   }
 }
 
-
-// class Tree {
-//   constructor(root) {
-//     this.root = root;
-//     this.current = this.root;
-//   }
-
-//   find(key) {
-//     if ( this.val === key ) return this;
-//     console.log(this.children);
-//     for (let i = 0; i < this.children.length; i++) {
-//       const childNode = this.children[i];
-//       return childNode.find(key);
-//     }
-//   }
-
-// }
-
 function solution4(enroll, referral, seller, amount) {
+    const map = new Map();
     const root = new Node('-');
+    map.set('-', root);
 
     function distribute (member, total) {
       const commision = parseInt(total * 0.1);
@@ -356,16 +340,18 @@ function solution4(enroll, referral, seller, amount) {
     }
 
     for ( let i = 0; i < enroll.length; i++ ) {
-      const node = root.find(referral[i]);
-      if ( node ) node.insert(new Node(enroll[i]));
+      const node = map.get(referral[i]);
+      const newNode = new Node(enroll[i]);
+      if ( node ) node.insert(newNode);
+      map.set(enroll[i], newNode);
     }
 
     seller.forEach((member, idx) => {
-      distribute(root.find(member), amount[idx] * 100)
+      distribute(map.get(member), amount[idx] * 100)
     });
 
 
-    const answer = enroll.map((member) => root.find(member).income);
+    const answer = enroll.map((member) => map.get(member).income);
 
     return answer;
 }

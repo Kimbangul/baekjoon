@@ -474,7 +474,94 @@ function solution5(maps) {
   return -1;
 }
 
-console.log(solution5(["SOOOL","XXXXO","OOOOO","OXXXX","OOOOE"])); // 	16
-console.log(solution5(["LOOXS","OOOOX","OOOOO","OOOOO","EOOOO"])); // 	-1
+// console.log(solution5(["SOOOL","XXXXO","OOOOO","OXXXX","OOOOE"])); // 	16
+// console.log(solution5(["LOOXS","OOOOX","OOOOO","OOOOO","EOOOO"])); // 	-1
 
 
+/* 
+2진 트리 모양 초원의 각 노드에 늑대와 양이 한 마리씩 놓여 있습니다. 
+이 초원의 루트 노드에서 출발하여 각 노드를 돌아다니며 양을 모으려 합니다. 
+각 노드를 방문할 때 마다 해당 노드에 있던 양과 늑대가 당신을 따라오게 됩니다. 
+이때, 늑대는 양을 잡아먹을 기회를 노리고 있으며, 
+당신이 모은 양의 수보다 늑대의 수가 같거나 더 많아지면 바로 모든 양을 잡아먹어 버립니다. 
+당신은 중간에 양이 늑대에게 잡아먹히지 않도록 하면서 최대한 많은 수의 양을 모아서 다시 루트 노드로 돌아오려 합니다.
+노드에 있는 양 또는 늑대에 대한 정보가 담긴 배열 info, 
+2진 트리의 각 노드들의 연결 관계를 담은 2차원 배열 edges가 매개변수로 주어질 때, 
+문제에 제시된 조건에 따라 각 노드를 방문하면서 모을 수 있는 양은 최대 몇 마리인지 return 하도록
+solution 함수를 완성해주세요.
+*/
+
+// class Node {
+//   constructor() {
+
+//   }
+
+//   push() {
+
+//   }
+// }
+
+// class Bst {
+//   constructor(info) {
+//     this.root = 0;
+//   }
+
+//   push() {
+
+//   }
+// }
+
+function solution6(info, edges) {
+  const childs = Array.from({ length: info.length }, () => new Set());
+  let pointer = 0;
+  const arr = [];
+
+  for ( let i = 0 ; i < edges.length; i++ ) {
+    const edge = edges[i];
+    const parent = edge[0];
+    const child = edge[1];
+
+    childs[parent].add(child);
+  }
+
+  const visitedInfo = info.map((infoItem) => {
+    return {visited: [],
+      isSheep: infoItem === 0 ? true : false,
+      isEmpty: false,
+    }
+  });
+
+  let maxCnt = 0;
+
+  const visit = (nodeIdx, sheepCnt, wolfCnt, nextIdxs) => {
+    /* 
+    1. 다음이 양일 경우 이동
+    2. 늑대일 경우, 양의 숫자와 비교해서 적을 때만 이동
+    */
+    let newSheepCnt = sheepCnt;
+    let newWolfCnt = wolfCnt;
+    if ( visitedInfo[nodeIdx].isSheep ) {
+      // 다음이 양일 경우 이동
+      // 늑대일 경우, 양의 숫자와 비교해서 적을 때만 이동
+      newSheepCnt++;
+    } else {
+      newWolfCnt++;
+    }
+
+    if (newWolfCnt >= newSheepCnt) return;
+    maxCnt = Math.max(maxCnt, newSheepCnt);
+
+    const nextNewIdxs = [...nextIdxs, ...childs[nodeIdx]].filter(idx => idx !== nodeIdx);
+
+    nextNewIdxs.forEach((idx) => {
+      visit(idx, newSheepCnt, newWolfCnt, nextNewIdxs);
+    });
+  }
+
+  visit(0, 0, 0, []);
+  return maxCnt;
+}
+
+console.log(solution6([0,0,1,1,1,0,1,0,1,0,1,1], [[0,1],[1,2],[1,4],[0,8],[8,7],[9,10],[9,11],[4,3],[6,5],[4,6],[8,9]])); // 5
+
+console.log(solution6([0,1,0,1,1,0,1,0,0,1,0], [[0,1],[0,2],[1,3],[1,4],[2,5],[2,6],[3,7],[4,8],[6,9],[9,10]])); // 5
